@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.BookOperations.CreateBook;
 using WebApi.BookOperations.DeleteBook;
@@ -18,9 +19,11 @@ namespace WebApi.AddControllers
     public class BookController : ControllerBase
     {
         private readonly BookStoreDbContext _context;
-        public BookController(BookStoreDbContext context)
+        private readonly IMapper _mapper;//AutoMapper
+        public BookController(BookStoreDbContext context, IMapper mapper/*//AutoMapper*/)
         {
             _context = context;
+            _mapper = mapper;//AutoMapper
         }
         /*private static List<Book> BookList = new List<Book>(){
             new Book{ID=1,
@@ -47,7 +50,7 @@ namespace WebApi.AddControllers
             return bookList;*/
             /*var bookList = _context.Books.OrderBy(x => x.ID).ToList<Book>();
             return bookList;*/
-            GetBooksQuery query = new GetBooksQuery(_context);
+            GetBooksQuery query = new GetBooksQuery(_context, _mapper);
             var result = query.Handle();
             return Ok(result);
         }
@@ -61,7 +64,7 @@ namespace WebApi.AddControllers
             BookDetailViewModel result;
             try
             {
-                GetBookDetailQuery query = new GetBookDetailQuery(_context);
+                GetBookDetailQuery query = new GetBookDetailQuery(_context, _mapper);
                 query.BookId = id;
                 result = query.Handle();
             }
@@ -87,7 +90,7 @@ namespace WebApi.AddControllers
                 return BadRequest();
             BookList.Add(newBook);
             return Ok();*/
-            CreateBookCommand command = new CreateBookCommand(_context);
+            CreateBookCommand command = new CreateBookCommand(_context, _mapper);
             try
             {
                 command.Model = newBook;
@@ -159,8 +162,8 @@ namespace WebApi.AddControllers
             return Ok();*/
             try
             {
-                DeleteBookCommand command=new DeleteBookCommand(_context);
-                command.BookId=id;
+                DeleteBookCommand command = new DeleteBookCommand(_context);
+                command.BookId = id;
                 command.Handle();
             }
             catch (Exception ex)

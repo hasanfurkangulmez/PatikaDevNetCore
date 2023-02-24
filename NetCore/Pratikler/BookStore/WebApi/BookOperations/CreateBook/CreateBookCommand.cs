@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using WebApi.Common;
 using WebApi.DbOperations;
 
@@ -10,21 +11,23 @@ namespace WebApi.BookOperations.CreateBook
     {
         public CreateBookModel Model { get; set; }
         private readonly BookStoreDbContext _dbContext;
-        public CreateBookCommand(BookStoreDbContext dbContext)
+        private readonly IMapper _mapper;//AutoMapper
+        public CreateBookCommand(BookStoreDbContext dbContext, IMapper mapper/*//AutoMapper*/)
         {
             _dbContext = dbContext;
+            _mapper = mapper;//AutoMapper
         }
         public void Handle()
         {
             var book = _dbContext.Books.SingleOrDefault(x => x.Title == Model.Title);
             if (book is not null)//book!=null
                 throw new InvalidOperationException("Kitap zaten mevcut");
-            book = new Book();
-            book.Title = Model.Title;
+            book = _mapper.Map<Book>(Model);// Model ile gelen veriyi book objesine convert et CreateMap config faydalandı//new Book();
+            /*book.Title = Model.Title;
             book.PublishDate = Model.PublishDate;
             book.PageCount = Model.PageCount;
-            book.GenreId = Model.GenreId;
-
+            book.GenreId = Model.GenreId;*///AutoMapper Kapsamında MappingProfile CreateMap'e taşındı.
+                                           //Direkt book database'e kaydedebilecek
             _dbContext.Books.Add(book);
             _dbContext.SaveChanges();
         }
