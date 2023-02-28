@@ -1,1 +1,1 @@
-# Patika.Dev : Orta Seviye .Net Core Patikası
+# [Patika.Dev](https://app.patika.dev/paths/orta-seviye-net-core-patikasi) : Orta Seviye .Net Core Patikası
