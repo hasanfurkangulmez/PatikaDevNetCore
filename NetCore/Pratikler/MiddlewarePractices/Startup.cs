@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -55,21 +56,43 @@ namespace MiddlewarePractices
             // app.Run(async context => System.Console.WriteLine("Middleware 2."));
 
             // app.Use()
-            app.Use(async(context,next)=>{
-                System.Console.WriteLine("Middleware 1 başladı.");
+            // app.Use(async(context,next)=>{
+            //     System.Console.WriteLine("Middleware 1 başladı.");
+            //     await next.Invoke();
+            //     System.Console.WriteLine("Middleware 1 sonlandırılıyor..");
+            // });
+            // app.Use(async(context,next)=>{
+            //     System.Console.WriteLine("Middleware 2 başladı.");
+            //     await next.Invoke();
+            //     System.Console.WriteLine("Middleware 2 sonlandırılıyor..");
+            // });
+            // app.Use(async(context,next)=>{
+            //     System.Console.WriteLine("Middleware 3 başladı.");
+            //     await next.Invoke();
+            //     System.Console.WriteLine("Middleware 3 sonlandırılıyor..");
+            // });
+            app.Use(async (context, next) =>
+            {
+                System.Console.WriteLine("Use Middleware tetiklendi");
                 await next.Invoke();
-                System.Console.WriteLine("Middleware 1 sonlandırılıyor..");
             });
-            app.Use(async(context,next)=>{
-                System.Console.WriteLine("Middleware 2 başladı.");
-                await next.Invoke();
-                System.Console.WriteLine("Middleware 2 sonlandırılıyor..");
-            });
-            app.Use(async(context,next)=>{
-                System.Console.WriteLine("Middleware 3 başladı.");
-                await next.Invoke();
-                System.Console.WriteLine("Middleware 3 sonlandırılıyor..");
-            });
+
+            // app.Map()
+            app.Map("/example", internalApp => internalApp.Run(async context =>
+            {
+                System.Console.WriteLine("/example middleware tetiklendi.");
+                await context.Response.WriteAsync("/example middleware tetiklendi.");
+            }));// /example route una istek geldiğinde çalışacaktır. internalApp kısa devre yapacak bir methoddur.
+
+            // app.MapWhen()
+            app.MapWhen(x => x.Request.Method == "GET"/*&& x.Request.*/, internalApp =>
+            {
+                internalApp.Run(async context =>
+                {
+                    System.Console.WriteLine("MapWhen Middleware tetiklendi.");
+                    await context.Response.WriteAsync("MapWhen Middleware tetiklendi.");
+                });
+            });// Bu method ile request e özel bir middleware yazabiliriz. GET POST PUT DELETE VB.
 
             app.UseEndpoints(endpoints =>
             {
