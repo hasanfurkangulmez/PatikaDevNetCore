@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using WebApi.DbOperations;
+using WebApi.Middlewares;
 
 namespace WebApi
 {
@@ -37,7 +38,7 @@ namespace WebApi
             });
 
             //Use In Memory Database
-            services.AddDbContext<BookStoreDbContext>(options=> options.UseInMemoryDatabase(databaseName:"BookStoreDB"));
+            services.AddDbContext<BookStoreDbContext>(options => options.UseInMemoryDatabase(databaseName: "BookStoreDB"));
 
             //AutoMapper
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -58,6 +59,8 @@ namespace WebApi
             app.UseRouting();
 
             app.UseAuthorization();
+            
+            app.UseCustomExceptionMiddle();//Custom Exception Middleware Yaratılmak
 
             app.UseEndpoints(endpoints =>
             {
