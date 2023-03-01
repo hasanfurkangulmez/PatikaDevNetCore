@@ -49,7 +49,7 @@ namespace WebApi.Middlewares
             string message = "[Error]    HTTP " + context.Request.Method + " - " + context.Response.StatusCode + " Error Message " + ex.Message + " in " + watch.Elapsed.TotalMilliseconds + " as";
             System.Console.WriteLine(message);
             var result = JsonConvert.SerializeObject(new { error = ex.Message }, Formatting.None);
-            return context.Response.WriteAsJsonAsync(result);
+            return context.Response.WriteAsync(result);
         }
     }
     public static class CustomExceptionMiddlewareExtention
