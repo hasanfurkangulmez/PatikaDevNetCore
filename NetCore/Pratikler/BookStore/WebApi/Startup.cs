@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using WebApi.DbOperations;
 using WebApi.Middlewares;
+using WebApi.Services;
 
 namespace WebApi
 {
@@ -42,6 +43,9 @@ namespace WebApi
 
             //AutoMapper
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            // Dependency Injection Container - Logger
+            services.AddSingleton<ILoggerService, DBLogger>(); // DBLogger yerine ConsoleLogger
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,7 +63,7 @@ namespace WebApi
             app.UseRouting();
 
             app.UseAuthorization();
-            
+
             app.UseCustomExceptionMiddle();//Custom Exception Middleware Yaratılmak
 
             app.UseEndpoints(endpoints =>
