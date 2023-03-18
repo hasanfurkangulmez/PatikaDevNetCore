@@ -1,6 +1,6 @@
 namespace WebApi.Common
 {
-    enum GenreEnum
+    public enum GenreEnum
     {
         PresonalGrowth = 1,
         ScienceFiction,
