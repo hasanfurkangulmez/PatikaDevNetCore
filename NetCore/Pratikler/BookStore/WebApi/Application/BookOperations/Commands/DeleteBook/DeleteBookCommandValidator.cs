@@ -3,7 +3,7 @@ using System.Linq;
 using FluentValidation;
 using WebApi.DbOperations;
 
-namespace WebApi.BookOperations.DeleteBook
+namespace WebApi.Application.BookOperations.Commands.DeleteBook
 {
     public class DeleteBookCommandValidator : AbstractValidator<DeleteBookCommand>
     {
