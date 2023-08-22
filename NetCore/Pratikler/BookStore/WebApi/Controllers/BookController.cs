@@ -10,7 +10,7 @@ using WebApi.Application.BookOperations.Commands.DeleteBook;
 using WebApi.Application.BookOperations.Queries.GetBookDetail;
 using WebApi.Application.BookOperations.Queries.GetBooks;
 using WebApi.Application.BookOperations.Commands.UpdateBook;
-using WebApi.DbOperations;
+using WebApi.DBOperations;
 using static WebApi.Application.BookOperations.Commands.CreateBook.CreateBookCommand;
 using static WebApi.Application.BookOperations.Commands.UpdateBook.UpdateBookCommand;
 
@@ -20,9 +20,10 @@ namespace WebApi.Controllers
     [Route("[controller]s")]
     public class BookController : ControllerBase
     {
-        private readonly BookStoreDbContext _context;
+        /*private readonly BookStoreDbContext _context;*/ //previous
+        private readonly IBookStoreDbContext _context;
         private readonly IMapper _mapper;//AutoMapper
-        public BookController(BookStoreDbContext context, IMapper mapper/*//AutoMapper*/)
+        public BookController(IBookStoreDbContext context, IMapper mapper/*//AutoMapper*/)
         {
             _context = context;
             _mapper = mapper;//AutoMapper

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using WebApi.Entities;
 
-namespace WebApi.DbOperations
+namespace WebApi.DBOperations
 {
     public class DataGenerator
     {

@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using WebApi.DbOperations;
+using WebApi.DBOperations;
 using WebApi.Middlewares;
 using WebApi.Services;
 
@@ -41,6 +41,7 @@ namespace WebApi
             //Use In Memory Database
             services.AddDbContext<BookStoreDbContext>(options => options.UseInMemoryDatabase(databaseName: "BookStoreDB"));
 
+            services.AddScoped<IBookStoreDbContext>(provider => provider.GetService<BookStoreDbContext>());
             //AutoMapper
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 

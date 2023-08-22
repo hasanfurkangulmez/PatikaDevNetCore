@@ -10,7 +10,7 @@ using WebApi.Application.BookOperations.Commands.DeleteBook;
 using WebApi.Application.BookOperations.Queries.GetBookDetail;
 using WebApi.Application.BookOperations.Queries.GetBooks;
 using WebApi.Application.BookOperations.Commands.UpdateBook;
-using WebApi.DbOperations;
+using WebApi.DBOperations;
 using static WebApi.Application.BookOperations.Commands.CreateBook.CreateBookCommand;
 using static WebApi.Application.BookOperations.Commands.UpdateBook.UpdateBookCommand;
 using WebApi.Application.GenreOperations.Queries.GetGenres;
@@ -25,9 +25,10 @@ namespace WebApi.Controllers
     [Route("[controller]s")]
     public class GenreController : ControllerBase
     {
-        private readonly BookStoreDbContext _context;
+        /*private readonly BookStoreDbContext _context;*/ //previous
+        private readonly IBookStoreDbContext _context;
         private readonly IMapper _mapper;
-        public GenreController(BookStoreDbContext context, IMapper mapper)
+        public GenreController(IBookStoreDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;

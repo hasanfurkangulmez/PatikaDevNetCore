@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using FluentValidation;
-using WebApi.DbOperations;
+using WebApi.DBOperations;
 
 namespace WebApi.Application.BookOperations.Queries.GetBookDetail
 {

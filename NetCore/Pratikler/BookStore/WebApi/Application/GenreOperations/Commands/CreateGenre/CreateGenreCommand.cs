@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using WebApi.DbOperations;
+using WebApi.DBOperations;
 using WebApi.Entities;
 
 namespace WebApi.Application.GenreOperations.Commands.CreateGenre
@@ -8,8 +8,8 @@ namespace WebApi.Application.GenreOperations.Commands.CreateGenre
     public class CreateGenreCommand
     {
         public CreateGenreModel Model { get; set; }
-        private readonly BookStoreDbContext _context;
-        public CreateGenreCommand(BookStoreDbContext context)
+        private readonly IBookStoreDbContext _context;
+        public CreateGenreCommand(IBookStoreDbContext context)
         {
             _context = context;
         }
