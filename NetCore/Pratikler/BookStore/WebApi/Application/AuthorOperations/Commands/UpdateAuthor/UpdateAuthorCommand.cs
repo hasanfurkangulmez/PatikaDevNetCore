@@ -20,8 +20,8 @@ namespace WebApi.Application.AuthorOperations.Commands.UpdateAuthor
             var author = _dbContext.Authors.SingleOrDefault(x => x.Id == AuthorId);
             if (author is null)
                 throw new InvalidOperationException("Güncellenecek Yazar Bulunamadı!");
-            author.Name = string.IsNullOrEmpty(Model.Name.Trim()) ? Model.Name : author.Name;
-            author.Surname = string.IsNullOrEmpty(Model.Surname.Trim()) ? Model.Surname : author.Surname;
+            author.Name = !string.IsNullOrEmpty(Model.Name.Trim()) ? Model.Name : author.Name;
+            author.Surname = !string.IsNullOrEmpty(Model.Surname.Trim()) ? Model.Surname : author.Surname;
             author.DateOfBirth = Model.DateOfBirth.Date != DateTime.Now.Date && Model.DateOfBirth.Date != default ? Model.DateOfBirth.Date : author.DateOfBirth.Date;
             _dbContext.SaveChanges();
         }
